@@ -6,7 +6,7 @@ function Bookmark(props) {
     } = props
     return (
         <div>
-            {bookmark.bookmark}
+            <a href={bookmark.url} >{bookmark.name}</a>
         </div>
     )
 }

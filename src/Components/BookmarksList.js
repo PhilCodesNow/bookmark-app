@@ -10,7 +10,8 @@ function BookmarksList(props) {
         <div>
             {
             bookmarksList.map(bookmark => {
-                return(<div>
+                return(
+                <div key={bookmark.id}>
                     <Bookmark 
                     bookmark={bookmark}
                     />
