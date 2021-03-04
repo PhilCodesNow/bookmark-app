@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './firebase';
+import { v4 as uuidv4} from 'uuid';
 
 
 import Header from './Header';
@@ -12,7 +13,8 @@ import AddForm from './AddForm';
 function App() {
 
   const [bookmarksList, setBookmarksList] = useState([])
-  const [addBookmarkInput, setAddBookmarkInput] = useState('')
+  const [addBookmarkNameInput, setAddBookmarkNameInput] = useState('')
+  const [addBookmarkURLInput, setAddBookmarkURLInput] = useState('')
 
 const ref = firebase.firestore().collection('bookmarks')
 
@@ -22,41 +24,46 @@ function getBookmarks() {
     querySnapshot.forEach((doc) =>{
       items.push(doc.data());
     })
-    console.log(items)
     setBookmarksList([...items])
   })
 }
+
 
 useEffect(() =>{
   getBookmarks()
 }, [])
 
-// useEffect(() =>{
-// firebase.firestore().collection('bookmarks').onSnapshot(snapshot =>{
-//   console.log(snapshot.docs)
-// })
-// }, [])
-
-
  
 function handleAddBookmark(e) {  
   e.preventDefault();
-  setBookmarksList(
-    [...bookmarksList, addBookmarkInput]
-  )
-  setAddBookmarkInput('')
-}
-function handleUpdateAddBookmarkInput(e){
-  setAddBookmarkInput(e.target.value)
+  let newBookmark = {
+    id: uuidv4(),
+    name: addBookmarkNameInput,
+    url: addBookmarkURLInput
+  }
+  console.log(newBookmark)
+  ref.add(newBookmark)
+  
+
+  setAddBookmarkNameInput('')
+  setAddBookmarkURLInput('')
 }
 
+function handleUpdateAddBookmarkNameInput(e){
+  setAddBookmarkNameInput(e.target.value)
+}
+function handleUpdateAddBookmarkURLInput(e){
+  setAddBookmarkURLInput(e.target.value)
+}
   return (
     <div className="app">
       <Header />
       <AddForm 
       handleAddBookmark={handleAddBookmark}
-      handleUpdateAddBookmarkInput={handleUpdateAddBookmarkInput}
-      addBookmarkInput={addBookmarkInput}
+      handleUpdateAddBookmarkNameInput={handleUpdateAddBookmarkNameInput}
+      handleUpdateAddBookmarkURLInput={handleUpdateAddBookmarkURLInput}
+      addBookmarkNameInput={addBookmarkNameInput}
+      addBookmarkURLInput={addBookmarkURLInput}
       />
       <BookmarksList
       bookmarksList={bookmarksList}

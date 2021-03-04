@@ -3,14 +3,21 @@ import React from 'react'
 function AddForm(props) {
     const {
         handleAddBookmark,
-        handleUpdateAddBookmarkInput,
-        addBookmarkInput
+        handleUpdateAddBookmarkNameInput,
+        handleUpdateAddBookmarkURLInput,
+        addBookmarkNameInput,
+        addBookmarkURLInput
     } = props
     return (
         <div>
             <form>
-                <input type="text" onChange={handleUpdateAddBookmarkInput}
-                value={addBookmarkInput}></input>
+                <label>Name: </label>
+                <input type="text" onChange={handleUpdateAddBookmarkNameInput}
+                value={addBookmarkNameInput}></input>
+
+                <label>URL: </label>
+                <input type="text" onChange={handleUpdateAddBookmarkURLInput}
+                value={addBookmarkURLInput}></input>
                 <button onClick={handleAddBookmark}>Add Todo</button>
             </form>
         </div>
